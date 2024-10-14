@@ -65,27 +65,35 @@ void six_month_moving(float arr[]){
 void high_low(float arr[]) {
     char *months[] = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
     printf("\nSales report (highest to lowest):\n\nMonth\t\tSales\n");
-    //create temp array for sorting
+
+    //duplicate array for sorting
     float dup[12];
-    int i;
-    for (i=0; i < 12; i++) {
+    int index[12];  // array to keep track of original index for months
+    for (int i = 0; i < 12; i++) {
         dup[i] = arr[i];
+        index[i] = i;
     }
-    //sort duplicate array into descending order (bubble sort)
+
+    // Sort dup array into descending order (bubble sort)
     for (int i = 0; i < 12; i++) {
         for (int j = 0; j < 12 - i - 1; j++) {
-            // Swap if the element found is less than the next element
-            if (arr[j] < arr[j + 1]) {
-                int temp = arr[j];
-                arr[j] = arr[j + 1];
-                arr[j + 1] = temp;
+            if (dup[j] < dup[j + 1]) {
+                // Swap nums in dup
+                float temp = dup[j];
+                dup[j] = dup[j + 1];
+                dup[j + 1] = temp;
+
+                // Swap same index for months
+                int temp_index = index[j];
+                index[j] = index[j + 1];
+                index[j + 1] = temp_index;
             }
         }
     }
-    //print out sorted results
-    int j;
-    for (j=0; j < 12; j++) {
-        printf("%-10s\t$%.2f\n", months[i], arr[i]);
+
+    // Print out sorted results with index array
+    for (int j = 0; j < 12; j++) {
+        printf("%-10s\t$%.2f\n", months[index[j]], dup[j]);
     }
 }
 
